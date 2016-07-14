@@ -12,11 +12,19 @@
 // ]
 
 
+
 var likes ={
 
 };
 
 
+var valuesInObj = function (obj) {
+  var values = [];
+  for(var key in obj){
+    values.push(obj[key]);
+  }
+  return values;
+}
 
 
 
@@ -86,15 +94,34 @@ var CommentBox = React.createClass({
   },
   render: function () {
     var inlineStyle = {
+      fontFamily: 'proxima-nova,"Helvetica Neue",Helvetica,Roboto,Arial,sans-serif',
       margin: '0 auto',
       width: '300px',
-      background: 'rgb(230, 230, 230)',
-      "border-radius": '2px',
-      padding: '20px 10px 10px 40px'
+      background: '#2d2d2d',
+      "border-radius": '10px',
+      padding: '20px 10px 10px 10px',
+      color: '#dddddd'
     };
+
+
+    var titleStyle = {
+      margin: '0 auto',
+      paddingLeft: '70px',
+      color: '#61dafb'
+    };
+
+
+
+
+    var likesArray =  valuesInObj(this.props.likes);
+    var totalLikes =  likesArray.reduce((a,b)=>{
+      return a + b;
+    },0);
+
     return(
       <div style={inlineStyle} className="commentBox">
-        <h1>React JS</h1>
+        <h1 style={titleStyle}>React JS</h1>
+        <p>Total Likes: {totalLikes}</p>
         <CommentsForm onCommentSubmit={this.handleCommentSubmit}/>
         <CommentList data = {this.state.data} likes={this.props.likes} onLike={this.handleLikes}/>
 
@@ -137,11 +164,12 @@ var Comment = React.createClass({
   },
   render: function () {
     var styles = {
-      color: '#1a1a1a',
-      background: '#f2f2f2',
-      'padding-left': '15px',
-      'padding-bottom': '10px',
-      'padding-top': '1px',
+      color: '#595959',
+      background: '#f9f9f9',
+      'paddingLeft': '15px',
+      'paddingBottom': '10px',
+      'paddingRight': '3px',
+      'paddingTop': '1px',
       'margin': '10px',
       'border-radius': '2px'
     }
@@ -210,5 +238,5 @@ var CommentsForm = React.createClass({
 });
 
 ReactDOM.render(
-  <CommentBox CommentBox url="https://northcoders-comment-box-server.herokuapp.com/api/comments" pollInterval = {20} likes={likes}/>,
+  <CommentBox CommentBox url="https://northcoders-comment-box-server.herokuapp.com/api/comments" pollInterval = {200} likes={likes}/>,
   document.getElementById('example'));
